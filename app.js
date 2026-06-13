@@ -11,6 +11,8 @@ const meals = [
   { key: "dinner", title: "Вечеря", ratio: 0.25 }
 ];
 
+const mainMealKeys = ["breakfast", "lunch", "dinner"];
+
 const categoryLabels = {
   protein: "Білкові продукти",
   protein_fat: "Білки + жири",
@@ -196,6 +198,7 @@ function generateMenu() {
   }
 
   const targets = getTargets();
+  const usedInMainMeals = new Set();
 
   const generatedMenu = meals.map((meal, index) => {
     const mealTargets = {
@@ -205,12 +208,26 @@ function generateMenu() {
       carbs: targets.carbs * meal.ratio
     };
 
-    const eligibleProducts = selectedProducts.filter(product => {
+    const isMainMeal = mainMealKeys.includes(meal.key);
+
+    let eligibleProducts = selectedProducts.filter(product => {
       return product.mealKeys.includes(meal.key);
     });
 
+    if (isMainMeal) {
+      eligibleProducts = eligibleProducts.filter(product => {
+        return !usedInMainMeals.has(product.id);
+      });
+    }
+
     const candidates = chooseCandidatesForMeal(eligibleProducts, meal.key, index);
     const optimizedItems = optimizeMeal(candidates, mealTargets);
+
+    if (isMainMeal) {
+      optimizedItems.forEach(item => {
+        usedInMainMeals.add(item.id);
+      });
+    }
 
     return {
       ...meal,
@@ -378,7 +395,7 @@ function renderMenu(menu) {
     if (meal.items.length === 0) {
       div.innerHTML = `
         <h3>${meal.title}</h3>
-        <p class="bad">Немає вибраних продуктів, дозволених для цього прийому їжі.</p>
+        <p class="bad">Немає вибраних продуктів, дозволених для цього прийому їжі, або всі такі продукти вже використані в основних прийомах.</p>
       `;
       container.appendChild(div);
       return;
