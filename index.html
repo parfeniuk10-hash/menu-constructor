@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Конструктор меню</title>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1>Конструктор меню на день</h1>
+      <p>
+        Оберіть продукти, задайте цільові калорії та БЖВ, а програма складе меню:
+        сніданок, перекус 1, обід, перекус 2 і вечерю.
+      </p>
+    </header>
+
+    <section class="card">
+      <h2>Ціль на день</h2>
+
+      <div class="targets">
+        <label>
+          Калорії, ккал
+          <input id="targetKcal" type="number" value="1626" />
+        </label>
+
+        <label>
+          Білки, г
+          <input id="targetProtein" type="number" value="128" />
+        </label>
+
+        <label>
+          Жири, г
+          <input id="targetFat" type="number" value="50" />
+        </label>
+
+        <label>
+          Вуглеводи, г
+          <input id="targetCarbs" type="number" value="152" />
+        </label>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Продукти</h2>
+      <p class="hint">Натисніть на продукти, які хочете використати в меню.</p>
+
+      <div id="products" class="products">
+        Завантаження продуктів...
+      </div>
+    </section>
+
+    <section class="actions">
+      <button id="generateBtn" type="button">
+        Згенерувати меню
+      </button>
+
+      <button id="clearBtn" type="button" class="secondary">
+        Очистити вибір
+      </button>
+    </section>
+
+    <section class="card">
+      <h2>Меню</h2>
+      <div id="menu" class="menu">
+        Поки що меню не згенеровано.
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Підсумок за день</h2>
+      <div id="summary" class="summary">
+        Після генерації тут з’являться калорії та БЖВ.
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
